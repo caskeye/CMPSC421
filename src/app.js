@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -8,6 +10,38 @@ const PASS = process.env.MONGO_PASSWORD;
 
 // Middleware
 app.use(bodyParser.json());
+
+
+
+// Swagger definition
+const swaggerOptions = {
+  swaggerDefinition: {
+      openapi: '3.0.0',
+      info: {
+          title: 'My API',
+          version: '1.0.0',
+          description: 'API documentation using Swagger',
+      },
+      servers: [
+          {
+              url: `http://localhost:${PORT}`,
+          },
+      ],
+ components: {
+   securitySchemes: {
+       bearerAuth: {
+           type: 'http',
+           scheme: 'bearer',
+           bearerFormat: 'JWT', 
+       },
+   },
+},
+  },
+  apis: ['src/routes/*.js'], // Path to your API docs
+};
+
+const swaggerDocs = swaggerJSDoc(swaggerOptions);
+   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 
 // MongoDB Connection
@@ -27,6 +61,10 @@ app.use('/items', itemsRouter);
 
 const ordersRouter = require('./routes/orders');
 app.use('/orders', ordersRouter);
+
+const productsRouter = require('./routes/products');
+app.use('/products', productsRouter);
+
 
 // Start the server
 app.listen(PORT, () => {
