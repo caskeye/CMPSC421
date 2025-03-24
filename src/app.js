@@ -45,7 +45,7 @@ const swaggerDocs = swaggerJSDoc(swaggerOptions);
 
 
 // MongoDB Connection
-mongoose.connect(`mongodb+srv://bjc6167:${PASS}@cluster0.jq54x.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`, {
+mongoose.connect(`mongodb://localhost:27017/`, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
@@ -58,13 +58,6 @@ db.once('open', () => {
 // Routes
 const itemsRouter = require('./routes/items');
 app.use('/items', itemsRouter);
-
-const ordersRouter = require('./routes/orders');
-app.use('/orders', ordersRouter);
-
-const productsRouter = require('./routes/products');
-app.use('/products', productsRouter);
-
 
 // Start the server
 app.listen(PORT, () => {

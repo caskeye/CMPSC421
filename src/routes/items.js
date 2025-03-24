@@ -2,6 +2,67 @@ const express = require('express');
 const router = express.Router();
 const Item = require('../models/item');
 
+ /**
+    * @swagger
+    * components:
+    *   schemas:
+    *     Item:
+    *       type: object
+    *       properties:
+    *         name:
+    *           type: string
+    *           description: The item's name
+    *         description:
+    *           type: string
+    *           description: Description of the item
+    */
+
+   /**
+    * @swagger
+    * /:
+    *   post:
+    *     summary: Create a new item
+    *     requestBody:
+    *       required: true
+    *       content:
+    *         application/json:
+    *           schema:
+    *             $ref: '#/components/schemas/Item'
+    *     responses:
+    *       201:
+    *         description: Item created
+    */
+
+/**
+    * @swagger
+    * /:
+    *   get:
+    *     summary: Retrieve a list of items
+    *     responses:
+    *       200:
+    *         description: A list of items
+    */
+
+/**
+    * @swagger
+    * /:
+    *   patch:
+    *     summary: Update an item's information
+    *     responses:
+    *       200:
+    *         description: Item updated
+    */
+
+/**
+    * @swagger
+    * /:
+    *   delete:
+    *     summary: Delete an item
+    *     responses:
+    *       200:
+    *         description: Item deleted
+    */
+
 // Create a new item
 router.post('/', async (req, res) => {
   try {

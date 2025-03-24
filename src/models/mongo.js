@@ -5,8 +5,6 @@ const Schemas = require("./item")
 
 var Models = {};
 Models["item"] = Schemas.item;
-Models["order"] = Schemas.order;
-
 
 async function createListing(dbName, collection, newListing) {
     console.log(newListing);
