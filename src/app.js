@@ -5,8 +5,8 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-const PASS = process.env.MONGO_PASSWORD;
+const HOST = '0.0.0.0';
+const PORT = 3070;
 
 // Middleware
 app.use(bodyParser.json());
@@ -44,11 +44,8 @@ const swaggerDocs = swaggerJSDoc(swaggerOptions);
    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 
-// MongoDB Connection
-mongoose.connect(`mongodb://localhost:27017/`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+//MongoDB Connection
+mongoose.connect(`mongodb://host.docker.internal:27017/`);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {
@@ -60,6 +57,6 @@ const itemsRouter = require('./routes/items');
 app.use('/items', itemsRouter);
 
 // Start the server
-app.listen(PORT, () => {
+app.listen(PORT, HOST, () => {
   console.log(`Server is running on port ${PORT}`);
 });
