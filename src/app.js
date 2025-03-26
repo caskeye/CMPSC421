@@ -45,7 +45,9 @@ const swaggerDocs = swaggerJSDoc(swaggerOptions);
 
 
 //MongoDB Connection
-mongoose.connect(`mongodb://host.docker.internal:27017/`);
+mongoose.connect(`mongodb://localhost:27017/`, {
+  dbName: '421DB'
+});
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {
