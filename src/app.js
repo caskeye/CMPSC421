@@ -5,8 +5,9 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
 
 const app = express();
-const HOST = '0.0.0.0';
-const PORT = 3070;
+const HOST = '0.0.0.0' ||  process.env.HOST;
+const PORT = 3070 || process.env.PORT;
+const MONGO_URI = `mongodb+srv://bjc6167:${process.env.MONGO_PASSWORD}@cluster0.jq54x.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 // Middleware
 app.use(bodyParser.json());
@@ -45,7 +46,7 @@ const swaggerDocs = swaggerJSDoc(swaggerOptions);
 
 
 //MongoDB Connection
-mongoose.connect(`mongodb://localhost:27017/`, {
+mongoose.connect(`${MONGO_URI}`, {
   dbName: '421DB'
 });
 const db = mongoose.connection;
@@ -56,9 +57,12 @@ db.once('open', () => {
 
 // Routes
 const itemsRouter = require('./routes/items');
+const { eventNames } = require('./models/item');
 app.use('/items', itemsRouter);
 
 // Start the server
 app.listen(PORT, HOST, () => {
   console.log(`Server is running on port ${PORT}`);
+  //output .env variables
+  console.log(`MONGO_URI: ${MONGO_URI}`);
 });
