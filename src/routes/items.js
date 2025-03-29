@@ -2,68 +2,126 @@ const express = require('express');
 const router = express.Router();
 const Item = require('../models/item');
 
- /**
-    * @swagger
-    * components:
-    *   schemas:
-    *     Item:
-    *       type: object
-    *       properties:
-    *         name:
-    *           type: string
-    *           description: The item's name
-    *         description:
-    *           type: string
-    *           description: Description of the item
-    */
-
-   /**
-    * @swagger
-    * /:
-    *   post:
-    *     summary: Create a new item
-    *     requestBody:
-    *       required: true
-    *       content:
-    *         application/json:
-    *           schema:
-    *             $ref: '#/components/schemas/Item'
-    *     responses:
-    *       201:
-    *         description: Item created
-    */
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Item:
+ *       type: object
+ *       required:
+ *         - name
+ *         - description
+ *       properties:
+ *         name:
+ *           type: string
+ *           description: The item's name
+ *         description:
+ *           type: string
+ *           description: Description of the item
+ *       example:
+ *         name: Sample Item
+ *         description: This is a sample item description
+ */
 
 /**
-    * @swagger
-    * /:
-    *   get:
-    *     summary: Retrieve a list of items
-    *     responses:
-    *       200:
-    *         description: A list of items
-    */
+ * @swagger
+ * tags:
+ *   name: Items
+ *   description: API for managing items
+ */
 
 /**
-    * @swagger
-    * /:
-    *   patch:
-    *     summary: Update an item's information
-    *     responses:
-    *       200:
-    *         description: Item updated
-    */
+ * @swagger
+ * /items:
+ *   post:
+ *     summary: Create a new item
+ *     tags: [Items]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Item'
+ *     responses:
+ *       201:
+ *         description: Item created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Item'
+ *       400:
+ *         description: Bad request
+ */
 
 /**
-    * @swagger
-    * /:
-    *   delete:
-    *     summary: Delete an item
-    *     responses:
-    *       200:
-    *         description: Item deleted
-    */
+ * @swagger
+ * /items:
+ *   get:
+ *     summary: Retrieve a list of items
+ *     tags: [Items]
+ *     responses:
+ *       200:
+ *         description: A list of items
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Item'
+ *       500:
+ *         description: Internal server error
+ */
 
-// Create a new item
+/**
+ * @swagger
+ * /items/{id}:
+ *   patch:
+ *     summary: Update an item's information
+ *     tags: [Items]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the item to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Item'
+ *     responses:
+ *       200:
+ *         description: Item updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Item'
+ *       400:
+ *         description: Bad request
+ */
+
+/**
+ * @swagger
+ * /items/{id}:
+ *   delete:
+ *     summary: Delete an item
+ *     tags: [Items]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the item to delete
+ *     responses:
+ *       200:
+ *         description: Item deleted successfully
+ *       400:
+ *         description: Bad request
+ */
+
 router.post('/', async (req, res) => {
   try {
     const newItem = await Item.create(req.body);
@@ -73,7 +131,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Get all items
 router.get('/', async (req, res) => {
   try {
     const items = await Item.find();
@@ -83,7 +140,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Update an item
 router.patch('/:id', async (req, res) => {
   try {
     const updatedItem = await Item.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -93,7 +149,6 @@ router.patch('/:id', async (req, res) => {
   }
 });
 
-// Delete an item
 router.delete('/:id', async (req, res) => {
   try {
     await Item.findByIdAndDelete(req.params.id);

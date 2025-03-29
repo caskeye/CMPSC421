@@ -5,8 +5,8 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
 
 const app = express();
-const HOST = '0.0.0.0' ||  process.env.HOST;
-const PORT = 3070 || process.env.PORT;
+const HOST = process.env.HOST || '0.0.0.0';
+const PORT = process.env.PORT || 3070;
 const MONGO_URI = `mongodb+srv://bjc6167:${process.env.MONGO_PASSWORD}@cluster0.jq54x.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 // Middleware
