@@ -63,6 +63,4 @@ app.use('/items', itemsRouter);
 // Start the server
 app.listen(PORT, HOST, () => {
   console.log(`Server is running on port ${PORT}`);
-  //output .env variables
-  console.log(`MONGO_PASSWORD: ${process.env.MONGO_PASSWORD}`);
 });
