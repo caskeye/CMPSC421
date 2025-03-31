@@ -35,4 +35,4 @@ COPY . .
 EXPOSE 3070
 
 # Run the application.
-CMD node src/app.js
+CMD npm start

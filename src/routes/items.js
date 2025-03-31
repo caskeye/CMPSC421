@@ -122,6 +122,30 @@ const Item = require('../models/item');
  *         description: Bad request
  */
 
+/**
+ * @swagger
+ * /items/{id}:
+ *   get:
+ *     summary: Get a single item by ID
+ *     tags: [Items]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the item
+ *     responses:
+ *       200:
+ *         description: Information of the item
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Item'
+ *       400:
+ *         description: Bad request
+ */
+
 router.post('/', async (req, res) => {
   try {
     const newItem = await Item.create(req.body);
@@ -153,6 +177,15 @@ router.delete('/:id', async (req, res) => {
   try {
     await Item.findByIdAndDelete(req.params.id);
     res.json({ message: 'Item deleted' });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const item = await Item.findOne({ _id: req.params.id });
+    res.json(item);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

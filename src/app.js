@@ -5,8 +5,8 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
 
 const app = express();
-const HOST = process.env.HOST || '0.0.0.0';
-const PORT = process.env.PORT || 3070;
+const HOST = process.env.HOST;
+const PORT = process.env.PORT;
 const MONGO_URI = `mongodb+srv://bjc6167:${process.env.MONGO_PASSWORD}@cluster0.jq54x.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 // Middleware
@@ -64,5 +64,5 @@ app.use('/items', itemsRouter);
 app.listen(PORT, HOST, () => {
   console.log(`Server is running on port ${PORT}`);
   //output .env variables
-  console.log(`MONGO_URI: ${MONGO_URI}`);
+  console.log(`MONGO_PASSWORD: ${process.env.MONGO_PASSWORD}`);
 });

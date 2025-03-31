@@ -10,7 +10,7 @@
 services:
   server:
     env_file:
-      - ./.env
+      - .env
     build:
       context: .
     environment:
