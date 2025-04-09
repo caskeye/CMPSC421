@@ -7,7 +7,7 @@ const swaggerJSDoc = require('swagger-jsdoc');
 const app = express();
 const HOST = process.env.HOST;
 const PORT = process.env.PORT;
-const MONGO_URI = `mongodb+srv://bjc6167:${process.env.MONGO_PASSWORD}@cluster0.jq54x.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+const MONGO_URI = process.env.MONGO_URI;;
 
 // Middleware
 app.use(bodyParser.json());

@@ -9,14 +9,34 @@
 # https://github.com/docker/awesome-compose
 services:
   server:
+    image: bryanpsu/cmpsc421:latest
     env_file:
       - .env
     build:
       context: .
+    depends_on:
+      mongodb:
+        condition: service_healthy
     environment:
       NODE_ENV: production
+      MONGO_URI: mongodb://mongodb:27017/421DB
     ports:
       - 3070:3000
+  mongodb:
+    image: mongo
+    restart: always
+    volumes:
+      - mongodata:/data/db
+    ports:
+      - 27018:27017
+    healthcheck:
+      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  mongodata:
+    driver: local
 
 
 
