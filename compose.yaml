@@ -20,23 +20,31 @@ services:
     environment:
       NODE_ENV: production
       MONGO_URI: mongodb://mongodb:27017/421DB
+      PORT: 3070
     ports:
       - 3070:3000
+    networks:
+      - node-network
   mongodb:
-    image: mongo
+    image: mongo:latest
     restart: always
     volumes:
       - mongodata:/data/db
     ports:
-      - 27018:27017
+      - 27017:27017
     healthcheck:
-      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - node-network
 volumes:
   mongodata:
-    driver: local
+
+networks:
+  node-network:
+    driver: bridge
 
 
 
