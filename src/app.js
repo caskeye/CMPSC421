@@ -61,6 +61,7 @@ const { eventNames } = require('./models/item');
 app.use('/items', itemsRouter);
 
 // Start the server
-app.listen(PORT, HOST, () => {
+const PORT2 = 3000;
+app.listen(PORT2, HOST, () => {
   console.log(`Server is running on port ${PORT}`);
 });

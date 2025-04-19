@@ -23,8 +23,7 @@ services:
       PORT: 3070
     ports:
       - 3070:3000
-    networks:
-      - node-network
+
   mongodb:
     image: mongo:latest
     restart: always
@@ -37,14 +36,11 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    networks:
-      - node-network
+
 volumes:
   mongodata:
 
-networks:
-  node-network:
-    driver: bridge
+
 
 
 
